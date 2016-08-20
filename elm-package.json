@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "summary": "Values that can be one of two types or both at once",
     "repository": "https://github.com/joneshf/elm-these.git",
     "license": "BSD3",

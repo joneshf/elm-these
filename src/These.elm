@@ -1,9 +1,9 @@
-module These exposing (..)
+module These exposing (These(..), these, mapBoth, mergeWith, merge, align)
 
 {-|
 A type that may be an `a`, a `b`, or both an `a` and a `b` at once.
 
-@docs These, these, mapBoth, mergeWith, merge
+@docs These, these, mapBoth, mergeWith, merge, align
 -}
 
 {-|
@@ -60,3 +60,28 @@ mergeWith : (c -> c -> c) -> (a -> c) -> (b -> c) -> These a b -> c
 mergeWith f g h =
   these g h (\x y -> f (g x) (h y))
 
+{-|
+Similar to [List.Extra.zip](http://package.elm-lang.org/packages/elm-community/list-extra/latest/List-Extra#zip)
+except the resulting list is the length of the longer list.
+
+We can also think of this from a relational algebra perspective (or SQL if that's your thing).
+We view each list as a relation (table) where the primary key is its index in the list.
+Then [List.Extra.zip](http://package.elm-lang.org/packages/elm-community/list-extra/latest/List-Extra#zip)
+can be viewed as a natural join (inner join),
+and [align](#align) can be viewed as a full outer join.
+-}
+align : List a -> List b -> List (These a b)
+align =
+  align' []
+
+align' : List (These a b) -> List a -> List b -> List (These a b)
+align' acc xss yss =
+  case (xss, yss) of
+    ([], []) ->
+      List.reverse acc
+    (x::xs, []) ->
+      align' (This x::acc) xs []
+    ([], y::ys) ->
+      align' (That y::acc) [] ys
+    (x::xs, y::ys) ->
+      align' (These x y::acc) xs ys

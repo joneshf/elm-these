@@ -2,6 +2,8 @@ module These
     exposing
         ( These(..)
         , these
+        , mapThis
+        , mapThat
         , mapBoth
         , mergeWith
         , merge
@@ -11,7 +13,7 @@ module These
 {-|
 A type that may be an `a`, a `b`, or both an `a` and a `b` at once.
 
-@docs These, these, mapBoth, mergeWith, merge, align
+@docs These, these, mapThis, mapThat, mapBoth, mergeWith, merge, align
 -}
 
 
@@ -25,6 +27,28 @@ type These a b
     = This a
     | That b
     | These a b
+
+
+{-|
+There is only one implementation of this function.
+It is fully described by the type signature.
+
+Replace any `a`s with `c`s
+-}
+mapThis : (a -> c) -> These a b -> These c b
+mapThis f =
+    mapBoth f identity
+
+
+{-|
+There is only one implementation of this function.
+It is fully described by the type signature.
+
+Replace any `b`s with `c`s
+-}
+mapThat : (b -> c) -> These a b -> These a c
+mapThat f =
+    mapBoth identity f
 
 
 {-|

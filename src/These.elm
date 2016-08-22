@@ -4,7 +4,7 @@ module These
         , these
         , mapThis
         , mapThat
-        , mapBoth
+        , mapThese
         , mergeWith
         , merge
         , align
@@ -13,7 +13,7 @@ module These
 {-|
 A type that may be an `a`, a `b`, or both an `a` and a `b` at once.
 
-@docs These, these, mapThis, mapThat, mapBoth, mergeWith, merge, align
+@docs These, these, mapThis, mapThat, mapThese, mergeWith, merge, align
 -}
 
 
@@ -37,7 +37,7 @@ Replace any `a`s with `c`s
 -}
 mapThis : (a -> c) -> These a b -> These c b
 mapThis f =
-    mapBoth f identity
+    mapThese f identity
 
 
 {-|
@@ -48,7 +48,7 @@ Replace any `b`s with `c`s
 -}
 mapThat : (b -> c) -> These a b -> These a c
 mapThat f =
-    mapBoth identity f
+    mapThese identity f
 
 
 {-|
@@ -57,8 +57,8 @@ It is fully described by the type signature.
 
 Replace any `a`s with `c`s and replace any `b`s with `d`s.
 -}
-mapBoth : (a -> c) -> (b -> d) -> These a b -> These c d
-mapBoth f g =
+mapThese : (a -> c) -> (b -> d) -> These a b -> These c d
+mapThese f g =
     these (This << f) (That << g) (\a b -> These (f a) (g b))
 
 

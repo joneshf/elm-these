@@ -112,20 +112,20 @@ and [align](#align) can be viewed as a full outer join.
 -}
 align : List a -> List b -> List (These a b)
 align =
-    align' []
+    align_ []
 
 
-align' : List (These a b) -> List a -> List b -> List (These a b)
-align' acc xss yss =
+align_ : List (These a b) -> List a -> List b -> List (These a b)
+align_ acc xss yss =
     case ( xss, yss ) of
         ( [], [] ) ->
             List.reverse acc
 
         ( x :: xs, [] ) ->
-            align' (This x :: acc) xs []
+            align_ (This x :: acc) xs []
 
         ( [], y :: ys ) ->
-            align' (That y :: acc) [] ys
+            align_ (That y :: acc) [] ys
 
         ( x :: xs, y :: ys ) ->
-            align' (These x y :: acc) xs ys
+            align_ (These x y :: acc) xs ys

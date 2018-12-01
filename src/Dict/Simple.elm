@@ -1,9 +1,6 @@
 module Dict.Simple exposing (merge)
 
-{-|
-
-@docs merge
-
+{-| @docs merge
 -}
 
 import Dict exposing (Dict)

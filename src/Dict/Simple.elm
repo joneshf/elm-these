@@ -1,17 +1,10 @@
-module Dict.Simple
-    exposing
-        ( merge
-        )
+module Dict.Simple exposing (merge)
 
-{-|
-
-@docs merge
-
+{-| @docs merge
 -}
 
-import Dict
 import Dict exposing (Dict)
-import These exposing (These(This, That, These))
+import These exposing (These(..))
 
 
 {-| The definition of [Dict.merge](http://package.elm-lang.org/packages/elm-lang/core/latest/Dict#merge)
@@ -35,6 +28,7 @@ actually encodes [These](http://package.elm-lang.org/packages/joneshf/elm-these/
 with a [Boehm-Berarducci](http://okmij.org/ftp/tagless-final/course/Boehm-Berarducci.html) encoding.
 
 It's basically Church encoding, but typed.
+
 -}
 merge :
     (comparable -> These a b -> result -> result)

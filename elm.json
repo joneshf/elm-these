@@ -3,7 +3,7 @@
     "name": "joneshf/elm-these",
     "summary": "Values that can be one of two types or both at once",
     "license": "BSD-3-Clause",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "exposed-modules": [
         "Dict.Simple",
         "These"

@@ -1,0 +1,22 @@
+{
+  "name": "elm-these",
+  "version": "1.0.0",
+  "description": "A library providing \"inclusive-or\" as opposed to [Result a b][]'s \"exclusive-or\".",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joneshf/elm-these.git"
+  },
+  "author": "Hardy Jones <jones3.hardy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joneshf/elm-these/issues"
+  },
+  "homepage": "https://github.com/joneshf/elm-these#readme",
+  "devDependencies": {
+    "elm": "0.19.1-3"
+  }
+}

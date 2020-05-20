@@ -24,12 +24,16 @@ build: $(ELM) $(ELM_MANIFESTS) $(ELM_SOURCES)
 bump: $(ELM)
 	$(ELM) bump
 
-.PHONY: diff
-diff: $(ELM)
-	$(ELM) diff
-
 .PHONY: clean
 clean:
 	rm -fr \
 	  $(ELM_STUFF) \
 	  $(NODE_MODULES)
+
+.PHONY: diff
+diff: $(ELM)
+	$(ELM) diff
+
+.PHONY: publish
+publish: $(ELM)
+	$(ELM) publish

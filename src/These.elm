@@ -1,9 +1,14 @@
-module These exposing
-    ( These(..)
-    , these, mapThis, mapThat, mapBoth
-    , mergeWith, merge
-    , align
-    )
+module These
+    exposing
+        ( These(..)
+        , these
+        , mapThis
+        , mapThat
+        , mapBoth
+        , mergeWith
+        , merge
+        , align
+        )
 
 {-| A type that may be an `a`, a `b`, or both an `a` and a `b` at once.
 

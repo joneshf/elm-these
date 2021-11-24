@@ -41,11 +41,14 @@ type These a b
 
 {-| Replace any `a`s with `c`s.
 
-    mapThis negate (This 1) == This -1
+    mapThis negate (This 1)
+    --> This -1
 
-    mapThis negate (That "hello") == That "hello"
+    mapThis negate (That "hello")
+    --> That "hello"
 
-    mapThis negate (These 1 "hello") == These -1 "hello"
+    mapThis negate (These 1 "hello")
+    --> These -1 "hello"
 
 -}
 mapThis : (a -> c) -> These a b -> These c b
@@ -55,11 +58,14 @@ mapThis f =
 
 {-| Replace any `b`s with `c`s
 
-    mapThat String.reverse (This 1) == This 1
+    mapThat String.reverse (This 1)
+    --> This 1
 
-    mapThat String.reverse (That "hello") == That "olleh"
+    mapThat String.reverse (That "hello")
+    --> That "olleh"
 
-    mapThat String.reverse (These 1 "hello") == These 1 "olleh"
+    mapThat String.reverse (These 1 "hello")
+    --> These 1 "olleh"
 
 -}
 mapThat : (b -> c) -> These a b -> These a c
@@ -69,11 +75,14 @@ mapThat f =
 
 {-| Replace any `a`s with `c`s and replace any `b`s with `d`s.
 
-    mapBoth negate String.reverse (This 1) == This -1
+    mapBoth negate String.reverse (This 1)
+    --> This -1
 
-    mapBoth negate String.reverse (That "hello") == That "olleh"
+    mapBoth negate String.reverse (That "hello")
+    --> That "olleh"
 
-    mapBoth negate String.reverse (These 1 "hello") == These -1 "olleh"
+    mapBoth negate String.reverse (These 1 "hello")
+    --> These -1 "olleh"
 
 -}
 mapBoth : (a -> c) -> (b -> d) -> These a b -> These c d
@@ -86,11 +95,14 @@ mapBoth f g =
 The first two functions are applied to the `This a` and `That b` values, respectively.
 The third function is applied to the `These a b` value.
 
-    these String.fromInt String.reverse (String.fromInt >> identity) (This 1) == "1"
+    these String.fromInt String.reverse (\a b -> (String.fromInt a) ++ b) (This 1)
+    --> "1"
 
-    these String.fromInt String.reverse (String.fromInt >> identity) (That "hello") == "olloh"
+    these String.fromInt String.reverse (\a b -> (String.fromInt a) ++ b) (That "hello")
+    --> "olleh"
 
-    these String.fromInt String.reverse (String.fromInt >> identity) (These 1 "hello") == "1hello"
+    these String.fromInt String.reverse (\a b -> (String.fromInt a) ++ b) (These 1 "hello")
+    --> "1hello"
 
 -}
 these : (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
@@ -108,11 +120,14 @@ these f g h t =
 
 {-| A version of [mergeWith](#mergeWith) that does not modify the `This a` or `That a` values.
 
-    merge (+) (This 1) == 1
+    merge (+) (This 1)
+    --> 1
 
-    merge (+) (That 2) == 2
+    merge (+) (That 2)
+    --> 2
 
-    merge (+) (These 1 2) == 3
+    merge (+) (These 1 2)
+    --> 3
 
 -}
 merge : (a -> a -> a) -> These a a -> a
@@ -125,11 +140,14 @@ merge =
 The difference is that in the `These a b` case
 we apply the second and third functions and merge the results with the first function.
 
-    mergeWith (++) String.fromInt String.reverse (This 1) == "1"
+    mergeWith (++) String.fromInt String.reverse (This 1)
+    --> "1"
 
-    mergeWith (++) String.fromInt String.reverse (That "hello") == "olloh"
+    mergeWith (++) String.fromInt String.reverse (That "hello")
+    --> "olleh"
 
-    mergeWith (++) String.fromInt String.reverse (These 1 "hello") == "1olloh"
+    mergeWith (++) String.fromInt String.reverse (These 1 "hello")
+    --> "1olleh"
 
 -}
 mergeWith : (c -> c -> c) -> (a -> c) -> (b -> c) -> These a b -> c
@@ -146,11 +164,14 @@ Then [List.Extra.zip](http://package.elm-lang.org/packages/elm-community/list-ex
 can be viewed as a natural join (inner join),
 and [align](#align) can be viewed as a full outer join.
 
-    align [ 1, 2 ] [ "foo", "bar" ] == [ These 1 "foo", These 2 "bar" ]
+    align [ 1, 2 ] [ "foo", "bar" ]
+    --> [ These 1 "foo", These 2 "bar" ]
 
-    align [ 1 ] [ "foo", "bar" ] == [ These 1 "foo", That "bar" ]
+    align [ 1 ] [ "foo", "bar" ]
+    --> [ These 1 "foo", That "bar" ]
 
-    align [ 1, 2 ] [ "foo" ] == [ These 1 "foo", This 2 ]
+    align [ 1, 2 ] [ "foo" ]
+    --> [ These 1 "foo", This 2 ]
 
 -}
 align : List a -> List b -> List (These a b)

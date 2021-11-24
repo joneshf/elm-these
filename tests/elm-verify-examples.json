@@ -1,6 +1,4 @@
 {
   "root": "../src",
-  "tests": [
-    "These"
-  ]
+  "tests": ["These"]
 }

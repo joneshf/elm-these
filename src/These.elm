@@ -1,8 +1,9 @@
 module These exposing
     ( These(..)
     , these, mapThis, mapThat, mapBoth
-    , mergeWith, merge
+    , mergeWith, merge, this, that, both
     , align
+    , fromMaybes
     )
 
 {-| A type that may be an `a`, a `b`, or both an `a` and a `b` at once.
@@ -17,12 +18,17 @@ module These exposing
 
 # Collapsing / Transforming
 
-@docs mergeWith, merge
+@docs mergeWith, merge, this, that, both
 
 
 # Collections
 
 @docs align
+
+
+# Creation
+
+@docs fromMaybes
 
 -}
 
@@ -193,3 +199,85 @@ align_ acc xss yss =
 
         ( x :: xs, y :: ys ) ->
             align_ (These x y :: acc) xs ys
+
+
+{-| Get the `a` value, returning Nothing if it's That.
+
+    this (This 1)
+    --> (Just 1)
+
+    this (That "foo")
+    --> Nothing
+
+    this (These 1 "foo")
+    --> (Just 1)
+
+-}
+this : These a b -> Maybe a
+this =
+    these Just (always Nothing) (\x _ -> Just x)
+
+
+{-| Get the `b` value, returning Nothing if it's This.
+
+    that (This 1)
+    --> Nothing
+
+    that (That "foo")
+    --> (Just "foo")
+
+    that (These 1 "foo")
+    --> (Just "foo")
+
+-}
+that : These a b -> Maybe b
+that =
+    these (always Nothing) Just (\_ x -> Just x)
+
+
+{-| Get both values as a tuple, returning Nothing if either is absent.
+
+    both (This 1)
+    --> Nothing
+
+    both (That "foo")
+    --> Nothing
+
+    both (These 1 "foo")
+    --> (Just ( 1, "foo" ))
+
+-}
+both : These a b -> Maybe ( a, b )
+both =
+    these (always Nothing) (always Nothing) (\a b -> Just ( a, b ))
+
+
+{-| Create a These from two Maybes. If both are Nothing, Nothing will be returned.
+
+    fromMaybes (Just 1) (Just "foo")
+    --> (Just (These 1 "foo"))
+
+    fromMaybes (Just 1) Nothing
+    --> (Just (This 1))
+
+    fromMaybes Nothing (Just "foo")
+    --> (Just (That "foo"))
+
+    fromMaybes Nothing Nothing
+    --> Nothing
+
+-}
+fromMaybes : Maybe a -> Maybe b -> Maybe (These a b)
+fromMaybes mA mB =
+    case ( mA, mB ) of
+        ( Just a, Just b ) ->
+            Just <| These a b
+
+        ( Just a, Nothing ) ->
+            Just <| This a
+
+        ( Nothing, Just b ) ->
+            Just <| That b
+
+        _ ->
+            Nothing
